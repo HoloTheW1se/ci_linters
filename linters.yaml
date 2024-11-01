@@ -1,0 +1,37 @@
+name: Skillbox linters
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        # This is the version of the action for setting up Python, not the Python version.
+        uses: actions/setup-python@v5
+        with:
+          # Semantic version range syntax or exact version of a Python version
+          python-version: '3.7'
+          # Optional - x64 or x86 architecture, defaults to x64
+          architecture: 'x64'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Start unittests
+        run: pytest tests/
+
+      - name: Start mypy
+        run: mypy src/
+
+      - name: Start black
+        run: black --diff --check src/
+
+      - name: Start isort
+        run: isort --diff --check-only --profile black src/
+
+      - name: Start flake8
+        run: flake8 src/
