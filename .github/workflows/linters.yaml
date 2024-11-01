@@ -25,7 +25,7 @@ jobs:
         run: pytest flask_testing/
 
       - name: Start mypy
-        run: mypy flask_testing/
+        run: mypy .\flask_testing\
 
       - name: Start black
         run: black --diff --check flask_testing/
